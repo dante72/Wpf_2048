@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_2048"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="2048" Height="500" Width= "400">
+    <Window.Resources>
+    </Window.Resources>
     <Grid>
         
+        <Grid.RowDefinitions>
+            <RowDefinition Height= "1*" />
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Border Background="Gray" BorderBrush="Red" BorderThickness="0" CornerRadius="8" Grid.Row ="1"></Border>
+        <UniformGrid Name ="MyGrid" Rows="4" Columns="4" Grid.Row ="1">
+        </UniformGrid>
+        <TextBox Name ="myTextBox" Text="1000500"/>
+
     </Grid>
+    
 </Window>
