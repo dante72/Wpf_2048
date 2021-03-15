@@ -20,7 +20,7 @@ namespace Wpf_2048
         }
 
         public ObservableCollection<int> MyCollection { get; }
-        public void myCollectionCollection()
+        public void ChangeCollection()
         {
             for (int i = 0; i < MyCollection.Count; i++)
                 MyCollection[i] = rnd.Next(0, 10);

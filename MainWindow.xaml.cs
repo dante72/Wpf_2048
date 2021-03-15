@@ -20,12 +20,23 @@ namespace Wpf_2048
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+        MyModel myModel;
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MyModel();
+            myModel = new MyModel();
+            this.DataContext = myModel;
             MyView.AddElements(this.MyGrid);
+        }
+
+        private void myKeyDown(object sender, KeyEventArgs e)
+        {
+            switch(e.Key)
+            {
+                case Key.Up:
+                    myModel.ChangeCollection();
+                    break;
+            }
         }
     }
 }

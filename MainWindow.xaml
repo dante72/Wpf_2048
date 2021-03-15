@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_2048"
         mc:Ignorable="d"
-        Title="2048" Height="500" Width= "400">
+        Title="2048" Height="500" Width= "400" KeyDown="myKeyDown">
     <Window.Resources>
     </Window.Resources>
     <Grid>
