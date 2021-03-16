@@ -18,17 +18,19 @@ namespace Wpf_2048
         {
             matrix = new int[rows, columns];
             rnd = new Random();
-
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < columns; j++)
-                    matrix[i, j] = 0;
-            AddTwoOrFour();
+            NewGame();
 
             observableCollection = new ObservableCollection<string> { };
-
             UpdateObservableCollection();
         }
 
+        public void NewGame()
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                    matrix[i, j] = 0;
+            AddTwoOrFour();
+        }
         private void UpdateObservableCollection()
         {
             observableCollection.Clear();
@@ -43,21 +45,37 @@ namespace Wpf_2048
         private void GameAction()
         {
             for (int i = 0; i < matrix.GetLength(0); i++)
+            {
                 for (int j = 0; j < matrix.GetLength(1); j++)
-                    if (matrix[i, j] == 0 || j != 0 && matrix[i, j] == matrix[i, j - 1])
-                        for (int k = j; k > 0; k--)
-                        {
-                            int c = matrix[i, k];
-                            matrix[i, k] = matrix[i, k - 1];
-                            matrix[i, k - 1] = c;
+                {
+                    if (matrix[i, j] == 0)
+                        MoveItemInRowEnd(i, j);
+                }
+                SummSameItemsInRow(i);
+            }
+        }
 
-                            if (matrix[i, j] == matrix[i, j - 1])
-                            {
-                                matrix[i, j] *= 2;
-                                matrix[i, j - 1] = 0;
-                            }
-                        }
+        void MoveItemInRowEnd(int row, int index)
+        {
+            for (int k = index; k > 0; k--)
+            {
+                int c = matrix[row, k];
+                matrix[row, k] = matrix[row, k - 1];
+                matrix[row, k - 1] = c;
+            }
+        }
 
+        void SummSameItemsInRow(int row)
+        {
+            for (int k = matrix.GetLength(1) - 2; k >= 0; k--)
+            {
+                if (matrix[row, k] == matrix[row, k + 1])
+                {
+                    matrix[row, k] *= 2;
+                    matrix[row, k + 1] = 0;
+                    MoveItemInRowEnd(row, k + 1);
+                }
+            }
         }
 
         void MatrixTransposition()
@@ -114,6 +132,23 @@ namespace Wpf_2048
                 AddTwoOrFour();
 
             UpdateObservableCollection();
+        }
+
+        public bool GameOver()
+        {
+            int[,] prev = Copy(matrix);
+            GameUp();
+            GameDown();
+            GameLeft();
+            GameRight();
+            if (Equals(matrix, prev))
+                return true;
+            else
+            {
+                matrix = prev;
+                return false;
+            }
+
         }
 
         public void GameUp()
