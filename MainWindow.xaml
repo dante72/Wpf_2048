@@ -5,19 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_2048"
         mc:Ignorable="d"
-        Title="2048" Height="500" Width= "400" KeyDown="myKeyDown">
+        Title="2048" Height="500" Width= "400" KeyDown="MyKeyDown" Background="LightBlue">
     <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="2">
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+            
+        </Style>
     </Window.Resources>
     <Grid>
-        
         <Grid.RowDefinitions>
             <RowDefinition Height= "1*" />
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <Border Background="Gray" BorderBrush="Red" BorderThickness="0" CornerRadius="8" Grid.Row ="1"></Border>
-        <UniformGrid Name ="MyGrid" Rows="4" Columns="4" Grid.Row ="1">
+        <Border Background="Gray" BorderBrush="Red" BorderThickness="0"  Margin="9" CornerRadius="8" Grid.Row ="1"></Border>
+        <UniformGrid Name ="GameField" Rows="4" Columns="4" Grid.Row ="1" Margin="12">
         </UniformGrid>
-        <TextBox Name ="myTextBox" Text="1000500"/>
+        <UniformGrid Name ="GameInfo" Rows="1" Columns="2" Grid.Row ="0">
+            <Border Background="Gray" BorderBrush="Red" BorderThickness="0"  Margin="9,9,3,0" CornerRadius="8" Grid.Row ="1">
+                <TextBlock Text="Scocr\nop" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+            <Border Background="Gray" BorderBrush="Red" BorderThickness="0"  Margin="3,9,9,0" CornerRadius="8" Grid.Row ="1">
+                <TextBlock Text="Scocr\nop" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+        </UniformGrid>
 
     </Grid>
     

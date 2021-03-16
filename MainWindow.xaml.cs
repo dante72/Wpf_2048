@@ -20,23 +20,33 @@ namespace Wpf_2048
     /// </summary>
     public partial class MainWindow : Window
     {
-        MyModel myModel;
+        Model myModel;
         public MainWindow()
         {
             InitializeComponent();
-            myModel = new MyModel();
-            this.DataContext = myModel;
-            MyView.AddElements(this.MyGrid);
+            myModel = new Model(GameField.Columns, GameField.Rows);
+            DataContext = new ViewModel.ViewModel(myModel);
+            GameView.AddElements(GameField);
         }
 
-        private void myKeyDown(object sender, KeyEventArgs e)
+        private void MyKeyDown(object sender, KeyEventArgs e)
         {
-            switch(e.Key)
+            switch (e.Key)
             {
+                case Key.Right:
+                    myModel.GameRight();
+                    break;
                 case Key.Up:
-                    myModel.ChangeCollection();
+                    myModel.GameUp();
+                    break;
+                case Key.Down:
+                    myModel.GameDown();
+                    break;
+                case Key.Left:
+                    myModel.GameLeft();
                     break;
             }
+
         }
     }
 }
