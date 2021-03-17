@@ -33,8 +33,10 @@ namespace Wpf_2048
         {
             if (myModel.GameOver())
             {
+                myModel.Record = myModel.Score;
                 MessageBox.Show("GameOver");
                 myModel.NewGame();
+                
             }
             switch (e.Key)
             {

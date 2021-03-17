@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,10 +22,47 @@ namespace Wpf_2048
             get { return _score; }
         }
 
+        public int Record
+        {
+            set
+            {
+                if (value > GetRecord())
+                {
+                    SetRecord(value);
+                    OnPropertyChanged(nameof(Record));
+                }
+            }
+            get { return GetRecord(); }
+        }
+
         private Random rnd;
         private int[,] prev_matrix;
         private int[,] matrix;
         int _score;
+
+        private int GetRecord()
+        {
+            int record = 0;
+            try
+            {
+                StreamReader sr = new StreamReader(nameof(Record));
+                int.TryParse(sr.ReadLine(), out record);
+                sr.Close();
+            }
+            catch
+            {
+                SetRecord(record);
+            }
+
+            return record;
+        }
+
+        private void SetRecord(int record)
+        {
+            StreamWriter sw = new StreamWriter(nameof(Record));
+            sw.WriteLine(record);
+            sw.Close();
+        }
         public Model(int columns, int rows)
         {
             matrix = new int[rows, columns];

@@ -29,7 +29,7 @@
                 <TextBlock Text="{Binding Score}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
             <Border Background="Gray" BorderBrush="Red" BorderThickness="0"  Margin="3,9,9,0" CornerRadius="8" Grid.Row ="1">
-                <TextBlock Text="Scocr\nop" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Record}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
         </UniformGrid>
 
