@@ -8,13 +8,23 @@ using System.Windows;
 
 namespace Wpf_2048
 {
-    public class Model
+    public class Model: ViewModel.BaseViewModel
     {
         public ObservableCollection<string> observableCollection { get; private set; }
+        public int Score
+        {
+            set
+            {
+                _score = value;
+                OnPropertyChanged(nameof(Score));
+            }
+            get { return _score; }
+        }
 
         private Random rnd;
         private int[,] prev_matrix;
         private int[,] matrix;
+        int _score;
         public Model(int columns, int rows)
         {
             matrix = new int[rows, columns];
@@ -27,9 +37,12 @@ namespace Wpf_2048
 
         public void NewGame()
         {
+            Score = 0;
+
             for (int i = 0; i < matrix.GetLength(0); i++)
                 for (int j = 0; j < matrix.GetLength(1); j++)
                     matrix[i, j] = 0;
+
             AddTwoOrFour();
         }
         private void UpdateObservableCollection()
@@ -43,8 +56,10 @@ namespace Wpf_2048
                         observableCollection.Add("");
         }
 
-        private void MoveItemsRightAndSumm()
+        private int MoveItemsRightAndSumm()
         {
+            int score = 0;
+
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
@@ -52,8 +67,10 @@ namespace Wpf_2048
                     if (matrix[i, j] == 0)
                         MoveItemInRowEnd(i, j);
                 }
-                SummSameItemsInRow(i);
+                score += SummSameItemsInRow(i);
             }
+
+            return score;
         }
 
         private void MoveItemInRowEnd(int row, int index)
@@ -65,20 +82,22 @@ namespace Wpf_2048
                 matrix[row, k - 1] = c;
             }
         }
-
-        private void SummSameItemsInRow(int row)
+        private int SummSameItemsInRow(int row)
         {
+            int score = 0;
             for (int k = matrix.GetLength(1) - 2; k >= 0; k--)
             {
                 if (matrix[row, k] == matrix[row, k + 1])
                 {
+                    
                     matrix[row, k] *= 2;
                     matrix[row, k + 1] = 0;
-                    MoveItemInRowEnd(row, k + 1);
+                    score += matrix[row, k];
+                    MoveItemInRowEnd(row, k + 1);  
                 }
             }
+            return score;
         }
-
         private void MatrixTransposition()
         {
             int[,] tmp = new int[matrix.GetLength(1), matrix.GetLength(0)];
@@ -122,26 +141,57 @@ namespace Wpf_2048
                         return false;
             return true;
         }
-
-        private void GameRight(bool observe)
+        public void GameMove(Move move) => GameMove(move, true);
+        private void GameMove(Move move, bool observe)
         {
             prev_matrix = Copy(matrix);
+            int score = 0;
 
-            MoveItemsRightAndSumm();
+            switch (move)
+            {
+                case Move.Right:
+                    score = MoveItemsRightAndSumm();
+                    break;
+
+                case Move.Left:
+                    MatrixFlip();
+                    score = MoveItemsRightAndSumm();
+                    MatrixFlip();
+                    break;
+
+                case Move.Up:
+                    MatrixTransposition();
+                    MatrixFlip();
+                    score = MoveItemsRightAndSumm();
+                    MatrixFlip();
+                    MatrixTransposition();
+                    break;
+
+                case Move.Down:
+                    MatrixTransposition();
+                    score = MoveItemsRightAndSumm();
+                    MatrixTransposition();
+                    break;
+            }
 
             if (!Equals(matrix, prev_matrix))
+            {
                 AddTwoOrFour();
-            if (observe)
-                UpdateObservableCollection();
+                if (observe)
+                {
+                    Score += score;
+                    UpdateObservableCollection();
+                }
+            }        
         }
         public bool GameOver()
         {
             int[,] prev = Copy(matrix);
 
-            GameUp(false);
-            GameDown(false);
-            GameLeft(false);
-            GameRight(false);
+            GameMove(Move.Up, false);
+            GameMove(Move.Down, false);
+            GameMove(Move.Left, false);
+            GameMove(Move.Right, false);
 
             if (Equals(matrix, prev))
                 return true;
@@ -151,54 +201,6 @@ namespace Wpf_2048
                 return false;
             }
         }
-
-        private void GameUp(bool observe)
-        {
-            prev_matrix = Copy(matrix);
-
-            MatrixTransposition();
-            MatrixFlip();
-            MoveItemsRightAndSumm();
-            MatrixFlip();
-            MatrixTransposition();
-
-            if (!Equals(matrix, prev_matrix))
-                AddTwoOrFour();
-            if (observe)
-                UpdateObservableCollection();
-        }
-
-        private void GameDown(bool observe)
-        {
-            prev_matrix = Copy(matrix);
-
-            MatrixTransposition();
-            MoveItemsRightAndSumm();
-            MatrixTransposition();
-
-            if (!Equals(matrix, prev_matrix))
-                AddTwoOrFour();
-            if (observe)
-                UpdateObservableCollection();
-        }
-        private void GameLeft(bool observe)
-        {
-            prev_matrix = Copy(matrix);
-
-            MatrixFlip();
-            MoveItemsRightAndSumm();
-            MatrixFlip();
-
-            if (!Equals(matrix, prev_matrix))
-                AddTwoOrFour();
-            if (observe)
-                UpdateObservableCollection();
-        }
-
-        public void GameRight() => GameRight(true);
-        public void GameLeft() => GameLeft(true);
-        public void GameUp() => GameUp(true);
-        public void GameDown() => GameDown(true);
         private void AddTwoOrFour()
         {   
             int i, j, tenPercent;

@@ -23,10 +23,10 @@ namespace Wpf_2048
         Model myModel;
         public MainWindow()
         {
-            InitializeComponent();
-            myModel = new Model(GameField.Columns, GameField.Rows);
-            DataContext = new ViewModel.ViewModel(myModel);
+            InitializeComponent(); 
             GameView.AddElements(GameField);
+            myModel = new Model(GameField.Columns, GameField.Rows);
+            DataContext = myModel;
         }
 
         private void MyKeyDown(object sender, KeyEventArgs e)
@@ -39,18 +39,26 @@ namespace Wpf_2048
             switch (e.Key)
             {
                 case Key.Right:
-                    myModel.GameRight();
+                    myModel.GameMove(Move.Right);
                     break;
                 case Key.Up:
-                    myModel.GameUp();
+                    myModel.GameMove(Move.Up);
                     break;
                 case Key.Down:
-                    myModel.GameDown();
+                    myModel.GameMove(Move.Down);
                     break;
                 case Key.Left:
-                    myModel.GameLeft();
+                    myModel.GameMove(Move.Left);
                     break;
             }
         }
+    }
+
+    public enum Move
+    {
+        Up = 0,
+        Down,
+        Left,
+        Right
     }
 }

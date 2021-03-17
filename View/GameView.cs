@@ -32,7 +32,7 @@ namespace Wpf_2048
                 };
 
                 Binding binding = new Binding();
-                binding.Path = new PropertyPath($"MyCollection[{i}]");
+                binding.Path = new PropertyPath($"observableCollection[{i}]");
                 textBlock.SetBinding(TextBlock.TextProperty, binding);
 
                 border.Child = textBlock;
