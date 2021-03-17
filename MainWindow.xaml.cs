@@ -31,13 +31,7 @@ namespace Wpf_2048
 
         private void MyKeyDown(object sender, KeyEventArgs e)
         {
-            if (myModel.GameOver())
-            {
-                myModel.Record = myModel.Score;
-                MessageBox.Show("GameOver");
-                myModel.NewGame();
-                
-            }
+
             switch (e.Key)
             {
                 case Key.Right:
@@ -52,6 +46,13 @@ namespace Wpf_2048
                 case Key.Left:
                     myModel.GameMove(Move.Left);
                     break;
+            }
+            if (myModel.GameOver())
+            {
+                myModel.Record = myModel.Score;
+                MessageBox.Show("GameOver");
+                myModel.NewGame();
+
             }
         }
     }

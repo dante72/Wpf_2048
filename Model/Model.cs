@@ -174,7 +174,7 @@ namespace Wpf_2048
                 return false;
 
             for (int i = 0; i < matrix1.GetLength(0); i++)
-                for (int j = 0; j < matrix2.GetLength(1); j++)
+                for (int j = 0; j < matrix1.GetLength(1); j++)
                     if (matrix1[i, j] != matrix2[i, j])
                         return false;
             return true;
@@ -224,6 +224,8 @@ namespace Wpf_2048
         }
         public bool GameOver()
         {
+            if (Check2048())
+                return true;
             int[,] prev = Copy(matrix);
 
             GameMove(Move.Up, false);
@@ -238,6 +240,15 @@ namespace Wpf_2048
                 matrix = prev;
                 return false;
             }
+        }
+
+        private bool Check2048()
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                    if (matrix[i, j] >= 2048)
+                        return true;
+            return false;
         }
         private void AddTwoOrFour()
         {   
