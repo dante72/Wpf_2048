@@ -20,13 +20,17 @@ namespace Wpf_2048
     /// </summary>
     public partial class MainWindow : Window
     {
-        Model myModel;
+        Model gameModel;
+        GameView gameView;
         public MainWindow()
         {
-            InitializeComponent(); 
-            GameView.AddElements(GameField);
-            myModel = new Model(GameField.Columns, GameField.Rows);
-            DataContext = myModel;
+            InitializeComponent();
+
+            gameView = new GameView();
+            gameView.AddElements(GameField);
+
+            gameModel = new Model(GameField.Columns, GameField.Rows);
+            DataContext = gameModel;
         }
 
         private void MyKeyDown(object sender, KeyEventArgs e)
@@ -35,23 +39,23 @@ namespace Wpf_2048
             switch (e.Key)
             {
                 case Key.Right:
-                    myModel.GameMove(Move.Right);
+                    gameModel.GameMove(Move.Right);
                     break;
                 case Key.Up:
-                    myModel.GameMove(Move.Up);
+                    gameModel.GameMove(Move.Up);
                     break;
                 case Key.Down:
-                    myModel.GameMove(Move.Down);
+                    gameModel.GameMove(Move.Down);
                     break;
                 case Key.Left:
-                    myModel.GameMove(Move.Left);
+                    gameModel.GameMove(Move.Left);
                     break;
             }
-            if (myModel.GameOver())
+            if (gameModel.GameOver())
             {
-                myModel.Record = myModel.Score;
+                gameModel.Record = gameModel.Score;
                 MessageBox.Show("GameOver");
-                myModel.NewGame();
+                gameModel.NewGame();
 
             }
         }

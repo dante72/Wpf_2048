@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Wpf_2048
 {
-    public class Model: ViewModel.BaseViewModel
+    public class Model : ViewModel.BaseViewModel
     {
         public ObservableCollection<string> observableCollection { get; private set; }
         public int Score
@@ -67,12 +67,10 @@ namespace Wpf_2048
         {
             matrix = new int[rows, columns];
             rnd = new Random();
-            NewGame();
-
             observableCollection = new ObservableCollection<string> { };
-            UpdateObservableCollection();
-        }
 
+            NewGame();
+        }
         public void NewGame()
         {
             Score = 0;
@@ -82,6 +80,7 @@ namespace Wpf_2048
                     matrix[i, j] = 0;
 
             AddTwoOrFour();
+            UpdateObservableCollection();
         }
         private void UpdateObservableCollection()
         {
@@ -90,8 +89,10 @@ namespace Wpf_2048
                 for (int j = 0; j < matrix.GetLength(1); j++)
                     if (matrix[i, j] != 0)
                         observableCollection.Add(matrix[i, j].ToString());
-                     else
+                    else
                         observableCollection.Add("");
+
+
         }
 
         private int MoveItemsRightAndSumm()
@@ -127,11 +128,11 @@ namespace Wpf_2048
             {
                 if (matrix[row, k] == matrix[row, k + 1])
                 {
-                    
+
                     matrix[row, k] *= 2;
                     matrix[row, k + 1] = 0;
                     score += matrix[row, k];
-                    MoveItemInRowEnd(row, k + 1);  
+                    MoveItemInRowEnd(row, k + 1);
                 }
             }
             return score;
@@ -157,7 +158,7 @@ namespace Wpf_2048
 
             matrix = tmp;
         }
-        private int[,] Copy(int [,] matrix)
+        private int[,] Copy(int[,] matrix)
         {
             int[,] tmp_matrix = new int[matrix.GetLength(0), matrix.GetLength(1)];
 
@@ -220,7 +221,7 @@ namespace Wpf_2048
                     Score += score;
                     UpdateObservableCollection();
                 }
-            }        
+            }
         }
         public bool GameOver()
         {
@@ -251,7 +252,7 @@ namespace Wpf_2048
             return false;
         }
         private void AddTwoOrFour()
-        {   
+        {
             int i, j, tenPercent;
             do
             {

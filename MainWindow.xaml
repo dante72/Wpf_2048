@@ -4,18 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_2048"
-        mc:Ignorable="d"
-        Title="2048" Height="500" Width= "400" KeyDown="MyKeyDown" Background="LightBlue">
-    <Window.Resources>
-        <Style TargetType="TextBlock">
-            <Style.Triggers>
-                <Trigger Property="Text" Value ="2">
-                    <Setter Property="Foreground" Value="Red" />
-                </Trigger>
-            </Style.Triggers>
-            
-        </Style>
-    </Window.Resources>
+        mc:Ignorable="d" 
+        Title="2048" Height="500" Width= "400" KeyDown="MyKeyDown" Background="LightBlue" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height= "1*" />
@@ -26,13 +16,13 @@
         </UniformGrid>
         <UniformGrid Name ="GameInfo" Rows="1" Columns="2" Grid.Row ="0">
             <Border Background="Gray" BorderBrush="Red" BorderThickness="0"  Margin="9,9,3,0" CornerRadius="8" Grid.Row ="1">
-                <TextBlock Text="{Binding Score}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Score}" FontSize ="28" Foreground ="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
             <Border Background="Gray" BorderBrush="Red" BorderThickness="0"  Margin="3,9,9,0" CornerRadius="8" Grid.Row ="1">
-                <TextBlock Text="{Binding Record}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Record}" FontSize ="28" Foreground ="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
         </UniformGrid>
 
     </Grid>
-    
+
 </Window>
