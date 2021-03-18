@@ -35,7 +35,6 @@ namespace Wpf_2048
 
         private void MyKeyDown(object sender, KeyEventArgs e)
         {
-
             switch (e.Key)
             {
                 case Key.Right:
@@ -51,16 +50,15 @@ namespace Wpf_2048
                     gameModel.GameMove(Move.Left);
                     break;
             }
+
             if (gameModel.GameOver())
             {
                 gameModel.Record = gameModel.Score;
-                MessageBox.Show("GameOver");
+                MessageBox.Show("Game Over!", "2048");
                 gameModel.NewGame();
-
             }
         }
     }
-
     public enum Move
     {
         Up = 0,
