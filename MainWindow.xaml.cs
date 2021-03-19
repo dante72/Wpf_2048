@@ -53,7 +53,6 @@ namespace Wpf_2048
 
             if (gameModel.GameOver())
             {
-                gameModel.Record = gameModel.Score;
                 MessageBox.Show("Game Over!", "2048");
                 gameModel.NewGame();
             }

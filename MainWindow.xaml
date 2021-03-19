@@ -29,7 +29,7 @@
                 <TextBlock Text="{Binding Record}" FontSize ="25" Foreground ="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
         </UniformGrid>
-
+        
     </Grid>
 
 </Window>

@@ -14,7 +14,7 @@ namespace Wpf_2048
         public ObservableCollection<string> observableCollection { get; private set; }
         public int Score
         {
-            set
+            private set
             {
                 _score = value;
                 OnPropertyChanged(nameof(Score));
@@ -24,7 +24,7 @@ namespace Wpf_2048
 
         public int Record
         {
-            set
+            private set
             {
                 if (value > GetRecord())
                 {
@@ -73,6 +73,7 @@ namespace Wpf_2048
         }
         public void NewGame()
         {
+            Record = Score;
             Score = 0;
 
             for (int i = 0; i < matrix.GetLength(0); i++)
